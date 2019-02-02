@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System;
 
-namespace WfnCore::Common
+namespace WfnCore.Common
 {
   /**
    * Provides the basic implementation of a finite state machine.
    */
-  class FSM<T>
+  public class FSM<T>
   {
     private IState<T> currentState;
 
@@ -19,7 +19,7 @@ namespace WfnCore::Common
      * Constructs a finite state machine with an initial state. All selection
      * of state space is defined by the states.
      */
-    public FSM(IState<T> initialStates)
+    public FSM(IState<T> initialState)
     {
       this.currentState = initialState;
     }
@@ -27,7 +27,7 @@ namespace WfnCore::Common
     /**
      * Ticks the FSM by checking if the currentState should transition.
      */
-    public void Tick(World lastWorld, World currentWorld)
+    public void Tick(GameWorld lastWorld, GameWorld currentWorld)
     {
       currentState = currentState.Tick(lastWorld, currentWorld);
     }
