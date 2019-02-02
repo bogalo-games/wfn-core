@@ -7,13 +7,24 @@ namespace WfnCore
 {
   public class PlayerController : Node2D
   {
+    /**
+     * A data model of the game's state.
+     */
+    public struct GameWorld
+    {
+      public bool UpPressed;
+      public bool DownPressed;
+      public bool LeftPressed;
+      public bool RightPressed;
+    }
+
     private struct Direction
     {
       public float dx;
       public float dy;
     }
 
-    private class DirectionState : IState<Direction>
+    private class DirectionState : IState<Direction, GameWorld>
     {
       private Direction data;
 
@@ -26,7 +37,7 @@ namespace WfnCore
         data.dy = dy;
       }
 
-      public IState<Direction> Tick(GameWorld lastWorld, GameWorld currentWorld)
+      public IState<Direction, GameWorld> Tick(GameWorld lastWorld, GameWorld currentWorld)
       {
         float ndx = 0;
         float ndy = 0;
@@ -55,14 +66,14 @@ namespace WfnCore
       }
     }
 
-    private FSM<Direction> directionFSM;
+    private FSM<Direction, GameWorld> directionFSM;
     private GameWorld lastWorld;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
       lastWorld = new GameWorld();
-      directionFSM = new FSM<Direction>(new DirectionState(0.0f, 0.0f));
+      directionFSM = new FSM<Direction, GameWorld>(new DirectionState(0.0f, 0.0f));
     }
 
     public override void _Process(float delta)
