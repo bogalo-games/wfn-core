@@ -51,10 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripts\PlayerController.cs" />
+    <Compile Include="Scripts\Common\ConditionState.cs" />
     <Compile Include="Scripts\Common\FSM.cs" />
-    <Compile Include="Scripts\Common\GameWorld.cs" />
     <Compile Include="Scripts\Common\IState.cs" />
+    <Compile Include="Scripts\PlayerController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
