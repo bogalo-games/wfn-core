@@ -13,27 +13,12 @@ namespace WfnCore
       public bool RightPressed;
     }
 
-    private struct Direction
+    private class DirectionState : ConditionState<Vector2, GameWorld>
     {
-      public float dx;
-      public float dy;
+      public DirectionState(float dx, float dy) : base(new Vector2(dx, dy)) { }
     }
 
-    private class DirectionState : ConditionState<Direction, GameWorld>
-    {
-      private Direction data;
-
-      public override Direction Data { get { return data; } }
-
-      public DirectionState(float dx, float dy)
-      {
-        data = new Direction();
-        data.dx = dx;
-        data.dy = dy;
-      }
-    }
-
-    private FSM<Direction, GameWorld> directionFSM;
+    private FSM<Vector2, GameWorld> directionFSM;
     private GameWorld lastWorld;
 
     public override void _Ready()
@@ -94,7 +79,7 @@ namespace WfnCore
         idle
       );
 
-      directionFSM = new FSM<Direction, GameWorld>(idle);
+      directionFSM = new FSM<Vector2, GameWorld>(idle);
     }
 
     public override void _Process(float delta)
@@ -108,7 +93,7 @@ namespace WfnCore
       lastWorld = currentWorld;
 
       directionFSM.Tick(lastWorld, currentWorld);
-      Translate(new Vector2(directionFSM.CurrentState.Data.dx, directionFSM.CurrentState.Data.dy) * delta);
+      Translate(directionFSM.CurrentState.Data * delta);
     }
   }
 }

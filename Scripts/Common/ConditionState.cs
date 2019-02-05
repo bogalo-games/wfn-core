@@ -16,28 +16,32 @@ namespace WfnCore.Common
   public abstract class ConditionState<T, World> : IState<T, World>
   {
     private List<Tuple<Condition<World>, IState<T, World>>> transitions;
+    protected T data;
 
     /**
      * Abstract implementation of the data type, so that it must be implemented
      * in the deriving class.
      */
-    public abstract T Data { get; }
+    public T Data { get { return data; } }
 
     /**
-     * Construct a ConditionState with an existing list of transitions.
+     * Construct a ConditionState with default data and an existing list of
+     * transitions.
      */
-    public ConditionState(List<Tuple<Condition<World>, IState<T, World>>> transitions)
+    public ConditionState(T data, List<Tuple<Condition<World>, IState<T, World>>> transitions)
     {
+      this.data = data;
       this.transitions = transitions;
     }
 
     /**
-     * Constructs a ConditionState without any transitions. Used in tandem with
-     * `addTransition` to add cyclic dependencies.
+     * Construct a ConditionState with default data without any transitions.
+     * Used in tandem with `addTransition` to add cyclic dependencies.
      */
-    public ConditionState()
+    public ConditionState(T data)
     {
-      transitions = new List<Tuple<Condition<World>, IState<T, World>>>();
+      this.data = data;
+      this.transitions = new List<Tuple<Condition<World>, IState<T, World>>>();
     }
 
     /**
