@@ -56,6 +56,7 @@
     <Compile Include="Scripts\PlayerController.cs" />
     <Content Include="Scripts\Game\GameWorld.cs" />
     <Content Include="Scripts\Game\PlayerState.cs" />
+    <Content Include="Scripts\Game\InputMap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
