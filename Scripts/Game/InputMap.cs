@@ -2,20 +2,20 @@ namespace WfnCore.Game
 {
   public struct InputMap
   {
-    bool LeftPressed;
-    bool RightPressed;
-    bool UpPressed;
-    bool DownPressed;
+    public bool LeftPressed;
+    public bool RightPressed;
+    public bool UpPressed;
+    public bool DownPressed;
 
-    bool StartPressed;
-    bool SelectPressed;
+    public bool StartPressed;
+    public bool SelectPressed;
 
-    bool LightPunchPressed;
-    bool MediumPunchPressed;
-    bool HeavyPunchPressed;
+    public bool LightPunchPressed;
+    public bool MediumPunchPressed;
+    public bool HeavyPunchPressed;
 
-    bool LightKickPressed;
-    bool MediumKickPressed;
-    bool HeavyKickPressed;
+    public bool LightKickPressed;
+    public bool MediumKickPressed;
+    public bool HeavyKickPressed;
   }
 }

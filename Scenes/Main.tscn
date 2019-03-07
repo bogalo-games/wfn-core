@@ -1,6 +1,62 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Scripts/PlayerController.cs" type="Script" id=1]
+[ext_resource path="res://Sprites/ryu-walkf/frame-0.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/ryu-walkf/frame-1.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/ryu-walkf/frame-2.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/ryu-walkf/frame-3.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/ryu-walkf/frame-4.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/ryu-walkf/frame-5.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/ryu-walkf/frame-6.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/ryu-walkf/frame-7.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/ryu-walkf/frame-8.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/ryu-walkf/frame-9.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/ryu-walkf/frame-10.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/ryu-walkb/frame-0.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/ryu-walkb/frame-1.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/ryu-walkb/frame-2.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/ryu-walkb/frame-3.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/ryu-walkb/frame-4.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/ryu-walkb/frame-5.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/ryu-walkb/frame-6.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/ryu-walkb/frame-7.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/ryu-walkb/frame-8.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/ryu-walkb/frame-9.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/ryu-walkb/frame-10.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/ryustance/frame-0.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/ryustance/frame-1.png" type="Texture" id=25]
+[ext_resource path="res://Sprites/ryustance/frame-2.png" type="Texture" id=26]
+[ext_resource path="res://Sprites/ryustance/frame-3.png" type="Texture" id=27]
+[ext_resource path="res://Sprites/ryustance/frame-4.png" type="Texture" id=28]
+[ext_resource path="res://Sprites/ryustance/frame-5.png" type="Texture" id=29]
+[ext_resource path="res://Sprites/ryustance/frame-6.png" type="Texture" id=30]
+[ext_resource path="res://Sprites/ryustance/frame-7.png" type="Texture" id=31]
+[ext_resource path="res://Sprites/ryustance/frame-8.png" type="Texture" id=32]
+[ext_resource path="res://Sprites/ryustance/frame-9.png" type="Texture" id=33]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ],
+"loop": true,
+"name": "default",
+"speed": 14.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "default",
+"speed": 14.0
+} ]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ) ],
+"loop": true,
+"name": "default",
+"speed": 14.0
+} ]
 
 [node name="Root" type="Node"]
 
@@ -8,6 +64,15 @@
 position = Vector2( 0, 300 )
 script = ExtResource( 1 )
 
-[node name="Polygon2D" type="Polygon2D" parent="Player"]
-polygon = PoolVector2Array( -32, -32, 32, -32, 32, 32, -32, 32 )
+[node name="WalkForward" type="AnimatedSprite" parent="Player"]
+visible = false
+frames = SubResource( 1 )
+
+[node name="WalkBack" type="AnimatedSprite" parent="Player"]
+visible = false
+frames = SubResource( 2 )
+
+[node name="Idle" type="AnimatedSprite" parent="Player"]
+visible = false
+frames = SubResource( 3 )
 

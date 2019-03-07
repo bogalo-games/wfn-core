@@ -40,5 +40,6 @@ namespace WfnCore.Game
   public class PlayerState : ConditionState<PlayerStateInfo, GameWorld>
   {
     public PlayerState(PlayerStateInfo info) : base(info) { }
+    public PlayerState() : base(new PlayerStateInfo()) { }
   }
 }

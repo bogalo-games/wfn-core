@@ -8,84 +8,116 @@ namespace WfnCore
 {
   public class PlayerController : Node2D
   {
+    public float BackVelocity = 115;
+    public float ForwardVelocity = 140;
+
     private GameWorld lastWorld;
     private GameWorld currentWorld;
+    private AnimatedSprite currentAnimation;
 
     private FSM<PlayerStateInfo, GameWorld> playerFSM;
 
     public override void _Ready()
     {
       lastWorld = new GameWorld();
+      currentWorld = new GameWorld();
 
-      // // Creating all of the possible states
-      // DirectionState walkBack = new DirectionState(-100.0f, 0.0f);
-      // DirectionState idle = new DirectionState(0.0f, 0.0f);
-      // DirectionState walkForward = new DirectionState(100.0f, 0.0f);
+      PlayerState walkBack = new PlayerState();
+      walkBack.Data.Direction = Vector2.Left * BackVelocity;
+      walkBack.Data.Animation = GetNode<AnimatedSprite>("WalkBack");
 
-      // // Manually constructing each of the node's connections.
-      // walkBack.AddTransition(
-      //   delegate (GameWorld lastWorld, GameWorld currentWorld)
-      //   {
-      //     return !currentWorld.LeftPressed && !currentWorld.RightPressed;
-      //   },
-      //   idle
-      // );
+      PlayerState idle = new PlayerState();
+      idle.Data.Direction = Vector2.Zero;
+      idle.Data.Animation = GetNode<AnimatedSprite>("Idle");
 
-      // walkBack.AddTransition(
-      //   delegate (GameWorld lastWorld, GameWorld currentWorld)
-      //   {
-      //     return currentWorld.RightPressed;
-      //   },
-      //   walkForward
-      // );
+      PlayerState walkForward = new PlayerState();
+      walkForward.Data.Direction = Vector2.Right * ForwardVelocity;
+      walkForward.Data.Animation = GetNode<AnimatedSprite>("WalkForward");
 
-      // idle.AddTransition(
-      //   delegate (GameWorld lastWorld, GameWorld currentWorld)
-      //   {
-      //     return currentWorld.LeftPressed;
-      //   },
-      //   walkBack
-      // );
+      // Manually constructing each of the node's connections.
+      walkBack.AddTransition(
+        delegate (GameWorld lastWorld, GameWorld currentWorld)
+        {
+          return !currentWorld.Player1Input.LeftPressed && !currentWorld.Player1Input.RightPressed;
+        },
+        idle
+      );
 
-      // idle.AddTransition(
-      //   delegate (GameWorld lastWorld, GameWorld currentWorld)
-      //   {
-      //     return currentWorld.RightPressed;
-      //   },
-      //   walkForward
-      // );
+      walkBack.AddTransition(
+        delegate (GameWorld lastWorld, GameWorld currentWorld)
+        {
+          return currentWorld.Player1Input.RightPressed;
+        },
+        walkForward
+      );
 
-      // walkForward.AddTransition(
-      //   delegate (GameWorld lastWorld, GameWorld currentWorld)
-      //   {
-      //     return currentWorld.LeftPressed;
-      //   },
-      //   walkBack
-      // );
+      idle.AddTransition(
+        delegate (GameWorld lastWorld, GameWorld currentWorld)
+        {
+          return currentWorld.Player1Input.LeftPressed;
+        },
+        walkBack
+      );
 
-      // walkForward.AddTransition(
-      //   delegate (GameWorld lastWorld, GameWorld currentWorld)
-      //   {
-      //     return !currentWorld.LeftPressed && !currentWorld.RightPressed;
-      //   },
-      //   idle
-      // );
+      idle.AddTransition(
+        delegate (GameWorld lastWorld, GameWorld currentWorld)
+        {
+          return currentWorld.Player1Input.RightPressed;
+        },
+        walkForward
+      );
 
-      // directionFSM = new FSM<PlayerState, GameWorld>(idle);
+      walkForward.AddTransition(
+        delegate (GameWorld lastWorld, GameWorld currentWorld)
+        {
+          return currentWorld.Player1Input.LeftPressed;
+        },
+        walkBack
+      );
+
+      walkForward.AddTransition(
+        delegate (GameWorld lastWorld, GameWorld currentWorld)
+        {
+          return !currentWorld.Player1Input.LeftPressed && !currentWorld.Player1Input.RightPressed;
+        },
+        idle
+      );
+
+      playerFSM = new FSM<PlayerStateInfo, GameWorld>(idle);
+      currentAnimation = playerFSM.CurrentState.Data.Animation;
+      Play(currentAnimation);
     }
 
     public override void _Process(float delta)
     {
-      // GameWorld currentWorld = new GameWorld();
+      lastWorld = currentWorld;
+      currentWorld = new GameWorld();
 
-      // currentWorld.LeftPressed = Input.IsActionPressed("p1_left");
-      // currentWorld.RightPressed = Input.IsActionPressed("p1_right");
+      currentWorld.Player1Input.LeftPressed = Input.IsActionPressed("p1_left");
+      currentWorld.Player1Input.RightPressed = Input.IsActionPressed("p1_right");
 
-      // directionFSM.Tick(lastWorld, currentWorld);
-      // lastWorld = currentWorld;
+      playerFSM.Tick(lastWorld, currentWorld);
 
-      // directionFSM.Tick(lastWorld, currentWorld);
-      // Translate(directionFSM.CurrentState.Data * delta);
+      Translate(playerFSM.CurrentState.Data.Direction * delta);
+      if (playerFSM.CurrentState.Data.Animation != currentAnimation)
+      {
+        Play(playerFSM.CurrentState.Data.Animation);
+      }
+    }
+
+    private void Play(AnimatedSprite animation)
+    {
+      // Stop the last animation
+      currentAnimation.Frame = 0;
+      currentAnimation.Playing = false;
+      currentAnimation.Visible = false;
+
+      // Start the current animation
+      currentAnimation = animation;
+
+      currentAnimation.Frame = 0;
+      currentAnimation.Playing = true;
+      currentAnimation.Visible = true;
     }
   }
 }
